@@ -73,3 +73,39 @@ class WeatherScraper(HTMLParser):
             self.date_value = False
         if tag == "a":
             self.a_tag = False
+
+    def handle_data(self, data):
+        if not self.data_end:
+            if "Sum" in str(data):
+                self.month_end = True
+                if self.last_month:
+                    self.data_end = True
+            if self.date_value:
+                self.daily_temp = {}
+                self.day = data
+                if str("01") in str(data):
+                    self.month_end = False
+            if self.td and not self.a_tag and not self.month_end:
+                if self.column == 1:
+                    if "M" in data or "\xa0" in data:
+                        self.daily_temp["Max"] = "null"
+                    else:
+                        self.daily_temp["Max"] = data
+                if self.column == 2:
+                    if "M" in data or "\xa0" in data:
+                        self.daily_temp["Min"] = "null"
+                    else:
+                        self.daily_temp["Min"] = data
+                if self.column == 3:
+                    if "M" in data or "\xa0" in data:
+                        self.daily_temp["Mean"] = "null"
+                    else:
+                        self.daily_temp["Mean"] = data
+                    self.weather[f"{self.first_year}-{self.first_month}-{self.day}"] = self.daily_temp
+
+        if "Data Report for October 1996" in str(data):
+            self.last_month = True
+
+myparser = WeatherScraper()
+
+myparser.scrape_data()       
