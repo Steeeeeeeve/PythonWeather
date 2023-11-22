@@ -3,7 +3,6 @@ Zach Lapointe
 November 22 2023
 Weather App
 """
-
 from html.parser import HTMLParser
 import urllib.request
 from datetime import datetime
@@ -108,4 +107,4 @@ class WeatherScraper(HTMLParser):
 
 myparser = WeatherScraper()
 
-myparser.scrape_data()       
+myparser.scrape_data()
