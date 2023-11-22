@@ -1,10 +1,30 @@
-from html.parser import HTMLParser
-from datetime import date
-import urllib.request
+"""
+Zach Lapointe
+November 22 2023
+Weather App
+"""
 
-day = date.day
-month = date.month
-year = date.year
-url = "http://climate.weather.gc.ca/climate_data/daily_data_e.html?StationID=27174&timeframe=2&StartYear=1840&EndYear=",year,"&Day=",day,"&Year=",year,"&Month=5"
-class WeatherScraper(url):
-    
+from html.parser import HTMLParser
+import urllib.request
+from datetime import datetime
+import json
+
+class WeatherScraper(HTMLParser):
+    """
+    Represents the HTML parser.
+    """
+    def __init__(self):
+        super().__init__()
+        self.td = False
+        self.a_tag = False
+        self.tbody = False
+        self.date_value = False
+        self.month_end = False
+        self.column = 1
+        self.daily_temp = {}
+        self.weather = {}
+        self.last_month = False
+        self.first_year = 1999
+        self.first_month = datetime.now().month
+        self.data_end = False
+        self.day = 0
