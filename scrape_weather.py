@@ -60,7 +60,7 @@ class WeatherScraper(HTMLParser):
         if tag == "a":
             self.a_tag = True
 
-def handle_endtag(self, tag):
+    def handle_endtag(self, tag):
         if tag == "tbody":
             self.tbody = False
         if tag == "td":
