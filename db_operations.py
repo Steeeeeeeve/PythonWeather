@@ -1,6 +1,7 @@
 import sqlite3
 from DBCM import DBCM
 import json
+import sys
 
 class DBOperations:
     def __init__(self, database='weather.db'):
@@ -42,11 +43,14 @@ class DBOperations:
             purge.execute('DELETE FROM weather')
     
 
-#Commands
-db = DBOperations("weather.db")
-db.initialize_db()
-with open("test.txt", "r") as data_file:
-    json = json.load(data_file)
-    db.save_data(json) 
-print(db.fetch_data())
+if __name__ == "__main__":
+    db = DBOperations("weather.db")
+    db.initialize_db()
+    with open(sys.argv[1], "r") as data_file:
+        json = json.load(data_file)
+        db.save_data(json) 
+    #print(db.fetch_data())
+    for date in db.fetch_data():
+        print(f"Sample Date: {date[0]}, Location: {date[1]}, Min Temp: {date[2]}, Max Temp: {date[3]}, Average Temp: {date[4]}")
+
 
