@@ -1,7 +1,7 @@
 """
-Zach Lapointe
+Cedric Pereira, Steven Hurkett, Zack Bowles-Lapointe
 November 22 2023
-Weather App
+Weather App - scraper page
 """
 from html.parser import HTMLParser
 import urllib.request

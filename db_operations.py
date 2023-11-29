@@ -1,3 +1,8 @@
+"""
+Cedric Pereira, Steven Hurkett, Zack Bowles-Lapointe
+November 22 2023
+Weather App - db page
+"""
 import sqlite3
 from DBCM import DBCM
 import json
