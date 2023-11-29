@@ -51,7 +51,7 @@ class DBOperations:
 if __name__ == "__main__":
     db = DBOperations("weather.db")
     db.initialize_db()
-    with open(sys.argv[1], "r") as data_file:
+    with open(sys.argv[1], "r", encoding='UTF-8') as data_file:
         json = json.load(data_file)
         db.save_data(json) 
     #print(db.fetch_data())
