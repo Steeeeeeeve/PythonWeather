@@ -1,7 +1,7 @@
 """
-Zach Lapointe
+Cedric Pereira, Steven Hurkett, Zack Bowles-Lapointe
 November 22 2023
-Weather App
+Weather App - scraper page
 """
 from html.parser import HTMLParser
 import urllib.request
@@ -44,7 +44,7 @@ class WeatherScraper(HTMLParser):
             self.first_year-=1
             self.first_month = 12
         if self.data_end:
-            with open('test.txt', 'w') as myfile:
+            with open('test.txt', 'w', encoding='UTF-8') as myfile:
                 myfile.write(json.dumps(self.weather))
             print(self.weather)
 
