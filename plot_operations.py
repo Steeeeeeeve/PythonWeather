@@ -1,3 +1,9 @@
+"""
+Cedric Pereira, Steven Hurkett, Zack Bowles-Lapointe
+December 2 2023
+Weather App - Plot Operations
+"""
+
 import matplotlib.pyplot as plt
 import random
 # Be sure to install this - pip install matplotlib
