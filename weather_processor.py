@@ -48,7 +48,7 @@ class WeatherProcessor:
         last_update = self.cursor(fetchone()[0])
         days_missing = (today - last_update).days
 
-        text_file = "update.txt"
+        text_file = "test.txt"
         url = f'https://climate.weather.gc.ca/climate_data/daily_data_e.html?timeframe=2&StationID=27174&StartYear={last_update.year}&StartMonth{last_update.month}&StartDay={last_update.day}&EndYear={today.year}Year={today.year}&Month={today.month}&Day={1}'
         scraper = WeatherScraper(url)
 
