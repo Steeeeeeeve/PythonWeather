@@ -12,7 +12,7 @@ class WeatherScraper(HTMLParser):
     """
     Represents the HTML parser.
     """
-    def __init__(self):
+    def __init__(self, url):
         super().__init__()
         self.td = False
         self.a_tag = False
@@ -20,11 +20,14 @@ class WeatherScraper(HTMLParser):
         self.date_value = False
         self.month_end = False
         self.column = 1
+        self.url = url
         self.daily_temp = {}
         self.weather = {}
         self.last_month = False
-        self.first_year = 1999
-        self.first_month = datetime.now().month
+        self.last_month_date = int(url[url.find("EndMonth=") + len("EndMonth="):url.find("&StartYear")])
+        self.last_year_date = int(url[url.find("EndYear=") + len("EndYear="):url.find("EndYear=") + len("EndYear=") + 4])
+        self.first_year = int(url[url.find("StartYear=") + len("StartYear="):url.find("&StartMonth")])
+        self.first_month = int(url[url.find("StartMonth=") + len("StartMonth="):url.find("&Year")])
         self.data_end = False
         self.day = 0
 
@@ -36,7 +39,7 @@ class WeatherScraper(HTMLParser):
             print(self.first_year)
             while self.first_month > 0 and not self.last_month:
                 print(self.first_month)
-                url = f'https://climate.weather.gc.ca/climate_data/daily_data_e.html?timeframe=2&StationID=27174&Year={self.first_year}&Month={self.first_month}&Day={1}'
+                url = self.url
                 with urllib.request.urlopen(url) as response:
                     html = str(response.read())
                 self.feed(html)
@@ -102,9 +105,13 @@ class WeatherScraper(HTMLParser):
                         self.daily_temp["Mean"] = data
                     self.weather[f"{self.first_year}-{self.first_month}-{self.day}"] = self.daily_temp
 
-        if "Data Report for October 1996" in str(data):
+        if self.first_month == self.last_month_date and self.first_year == self.last_year_date:
             self.last_month = True
 
-myparser = WeatherScraper()
+#testing
+#url = 'https://climate.weather.gc.ca/climate_data/daily_data_e.html?timeframe=2&StationID=27174&EndYear=1996&EndMonth=10&StartYear=1997&StartMonth=12&Year=1997&Month=12&Day=1'
+#myparser = WeatherScraper(url)
+#myparser.scrape_data()
 
-myparser.scrape_data()
+#print(url[url.find("EndMonth=") + len("EndMonth="):url.find("&StartYear")])
+#print(url[url.find("EndYear=") + len("EndYear="):url.find("EndYear=") + len("EndYear=") + 4])
