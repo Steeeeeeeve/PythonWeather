@@ -48,14 +48,14 @@ class DBOperations:
             purge.execute('DELETE FROM weather')
     
 
-if __name__ == "__main__":
-    db = DBOperations("weather.db")
-    db.initialize_db()
-    with open(sys.argv[1], "r", encoding='UTF-8') as data_file:
-        json = json.load(data_file)
-        db.save_data(json) 
-    #print(db.fetch_data())
-    for date in db.fetch_data():
-        print(f"Sample Date: {date[0]}, Location: {date[1]}, Min Temp: {date[2]}, Max Temp: {date[3]}, Average Temp: {date[4]}")
+#if __name__ == "__main__":
+    #db = DBOperations("weather.db")
+    #db.initialize_db()
+    #db.purge_data()
+    #with open(sys.argv[1], "r", encoding='UTF-8') as data_file:
+        #json = json.load(data_file)
+        #db.save_data(json) 
+    #for date in db.fetch_data():
+        #print(f"Sample Date: {date[0]}, Location: {date[1]}, Min Temp: {date[2]}, Max Temp: {date[3]}, Average Temp: {date[4]}")
 
 

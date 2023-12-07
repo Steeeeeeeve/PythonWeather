@@ -13,7 +13,7 @@ class PlotOperations:
         plt.boxplot(data.values())
         plt.xlabel('Month')
         plt.ylabel('Temperature (Celsius)')
-        plt.title('Monthly Temperature Distribution for 2013 to 2023')
+        plt.title('Monthly Temperature Distribution for 1996 to 2023')
         plt.xticks(range(1, len(data) + 1), data.keys())
         plt.show()
 
@@ -49,8 +49,8 @@ weather_data = {1: [round(random.uniform(-20, 5), 1) for _ in range(31)],
                 # 7: [2.3, 5.5, 6.4, 4.3], 8: [2.4, 3.6, 2.5, 8.6],
                 # 9: [2.3, 5.5, 6.4, 4.3], 10: [2.4, 3.6, 2.5, 8.6],
                 # 11: [2.3, 5.5, 6.4, 4.3], 12: [2.4, 3.6, 2.5, 8.6]}
-plotter.create_boxplot(weather_data)
+#plotter.create_boxplot(weather_data)
 
 # Line plot
-january_data = weather_data[1]
-plotter.create_lineplot('January', 2023, january_data)
+#january_data = weather_data[1]
+#plotter.create_lineplot('January', 2023, january_data)

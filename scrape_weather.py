@@ -35,11 +35,12 @@ class WeatherScraper(HTMLParser):
         """
         helps scrape the data from the specified site starting on specified date
         """
+
         while not self.data_end:
             print(self.first_year)
             while self.first_month > 0 and not self.last_month:
                 print(self.first_month)
-                url = self.url
+                url = f'https://climate.weather.gc.ca/climate_data/daily_data_e.html?timeframe=2&StationID=27174&Year={self.first_year}&Month={self.first_month}&Day={1}'
                 with urllib.request.urlopen(url) as response:
                     html = str(response.read())
                 self.feed(html)
@@ -109,9 +110,6 @@ class WeatherScraper(HTMLParser):
             self.last_month = True
 
 #testing
-#url = 'https://climate.weather.gc.ca/climate_data/daily_data_e.html?timeframe=2&StationID=27174&EndYear=1996&EndMonth=10&StartYear=1997&StartMonth=12&Year=1997&Month=12&Day=1'
+#url = 'https://climate.weather.gc.ca/climate_data/daily_data_e.html?timeframe=2&StationID=27174&EndYear=2023&EndMonth=10&StartYear=2023&StartMonth=11&Year=2023&Month=11&Day=1'
 #myparser = WeatherScraper(url)
 #myparser.scrape_data()
-
-#print(url[url.find("EndMonth=") + len("EndMonth="):url.find("&StartYear")])
-#print(url[url.find("EndYear=") + len("EndYear="):url.find("EndYear=") + len("EndYear=") + 4])
