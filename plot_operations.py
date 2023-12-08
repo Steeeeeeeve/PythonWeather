@@ -4,11 +4,17 @@ November 22 2023
 Weather App - plot operations page
 """
 
-from DBCM import DBCM
 import matplotlib.pyplot as plt
+from DBCM import DBCM
 
 class PlotOperations:
+    """
+    Represents the PlotOperations class
+    """
     def create_boxplot(self, data_list, start_year, end_year):
+        """
+        Handles the creation of the Boxplot.
+        """
         monthly_temps = {}
         for item in data_list[0]:
             date, avg_temp = str(item[1]).rstrip('-'), item[5]
@@ -31,6 +37,9 @@ class PlotOperations:
 
 
     def create_lineplot(self, data_list, month, year):
+        """
+        Handles the creation of the lineplot.
+        """
         month_names = {
             1: 'January',
             2: 'February',
@@ -46,7 +55,7 @@ class PlotOperations:
             12: 'December'
         }
         days = [item[1] for item in data_list]
-        temperatures = [item[4] for item in data_list] 
+        temperatures = [item[4] for item in data_list]
         month_pretty = month_names.get(month, 'Invalid Month')
         plt.plot(days, temperatures)
         plt.xlabel('Day of Month')
@@ -55,4 +64,3 @@ class PlotOperations:
         plt.xticks(days, rotation=45, fontsize=8)
         plt.grid()
         plt.show()
-
