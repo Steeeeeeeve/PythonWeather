@@ -5,7 +5,6 @@ Weather App - scraper page
 """
 from html.parser import HTMLParser
 import urllib.request
-from datetime import datetime
 import json
 
 class WeatherScraper(HTMLParser):
@@ -108,8 +107,3 @@ class WeatherScraper(HTMLParser):
 
         if self.first_month == self.last_month_date and self.first_year == self.last_year_date:
             self.last_month = True
-
-#testing
-#url = 'https://climate.weather.gc.ca/climate_data/daily_data_e.html?timeframe=2&StationID=27174&EndYear=2023&EndMonth=10&StartYear=2023&StartMonth=11&Year=2023&Month=11&Day=1'
-#myparser = WeatherScraper(url)
-#myparser.scrape_data()

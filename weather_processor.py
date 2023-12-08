@@ -3,7 +3,7 @@ Cedric Pereira, Steven Hurkett, Zack Bowles-Lapointe
 December 6 2023
 Weather App - User Interaction
 """
- 
+
 import sqlite3
 import json
 from datetime import datetime
@@ -12,11 +12,17 @@ from db_operations import DBOperations
 from plot_operations import PlotOperations
 
 class WeatherProcessor:
+    """
+    Represents the Weather Processor where user feedback is given.
+    """
     def __init__(self):
         self.conn = sqlite3.connect('weather.db')
         self.cursor = self.conn.cursor()
 
     def weather_menu(self):
+        """
+        This is the menu for the weather processor.
+        """
         print("Weather Data")
         print("1. Download Full Weather Data.")
         print("2. Update Weather Data.")
@@ -25,6 +31,9 @@ class WeatherProcessor:
         print("5. Exit")
 
     def full_pull(self):
+        """
+        This does a full pull from todays date to the earliest date.
+        """
         print("Getting fresh data...")
 
         today = datetime.now().date()
@@ -41,8 +50,11 @@ class WeatherProcessor:
         for date in operations.fetch_data():
             print(f"Sample Date: {date[0]}, Location: {date[1]}, Min Temp: {date[2]}, Max Temp: {date[3]}, Average Temp: {date[4]}")
         print("Full download completed")
-    
+
     def update_weather(self):
+        """
+        This is used to update the weather data without scraping it all again.
+        """
         print("Updating weather data, please wait...")
         today = datetime.now().date()
         self.cursor.execute("SELECT sample_date FROM weather ORDER BY DATE(sample_date) DESC LIMIT 1")
@@ -66,6 +78,9 @@ class WeatherProcessor:
         print("Weather data updated.")
 
     def box_plot(self):
+        """
+        This initiates and sends the variables for the box plot.
+        """
         self.cursor.execute("SELECT sample_date FROM weather ORDER BY DATE(sample_date) ASC LIMIT 1")
         first_year = int(str(self.cursor.fetchone()[0])[0:4])
         self.cursor.execute("SELECT sample_date FROM weather ORDER BY DATE(sample_date) DESC LIMIT 1")
@@ -100,6 +115,9 @@ class WeatherProcessor:
         plot.create_boxplot(data, start_year, end_year)
 
     def line_plot(self):
+        """
+        line plot selects and calls up a line plot.
+        """
         self.cursor.execute("SELECT sample_date FROM weather ORDER BY DATE(sample_date) ASC LIMIT 1")
         first_year = int(str(self.cursor.fetchone()[0])[0:4])
         self.cursor.execute("SELECT sample_date FROM weather ORDER BY DATE(sample_date) DESC LIMIT 1")
@@ -135,6 +153,9 @@ class WeatherProcessor:
 
 
     def user_choice(self, choice):
+        """
+        This handles the users choice in the dialogue.
+        """
         if choice == 1:
             self.full_pull()
         elif choice == 2:
@@ -150,7 +171,10 @@ class WeatherProcessor:
             print("Invalid selection, try again.")
 
     def process(self):
-    
+        """
+        This initiates the weather menu when called.
+        """
+
         self.weather_menu()
         try:
             user_selection = int(input("Enter an option(1-5): "))
@@ -161,5 +185,3 @@ class WeatherProcessor:
 if __name__ == "__main__":
     weather_processor = WeatherProcessor()
     weather_processor.process()
-    
-        
