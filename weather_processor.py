@@ -21,7 +21,8 @@ class WeatherProcessor:
         print("1. Download Full Weather Data.")
         print("2. Update Weather Data.")
         print("3. Show BoxPlot")
-        print("4. Exit")
+        print("4. Show LinePlot")
+        print("5. Exit")
 
     def full_pull(self):
         print("Getting fresh data...")
@@ -56,13 +57,6 @@ class WeatherProcessor:
         operations = DBOperations("weather.db")
         operations.initialize_db()
 
-    def box_plot(self):
-        db = DBOperations("weather.db")
-        plot = PlotOperations()
-        data = db.fetch_data()
-        plot.create_boxplot(data)
-
-
         with open(text_file, "r") as text_data:
             json_data = json.load(text_data)
             operations.save_data(json_data)
@@ -70,6 +64,31 @@ class WeatherProcessor:
         for date in operations.fetch_data():
             print(f"Sample Date: {date[0]}, Location: {date[1]}, Min Temp: {date[2]}, Max Temp: {date[3]}, Average Temp: {date[4]}")
         print("Weather data updated.")
+
+    def box_plot(self):
+        start_year = int(input("Enter a start year between 1997 and 2023: "))
+        end_year = int(input("Enter a start year between 1997 and 2023: "))
+        data = []
+        while start_year <= end_year:
+            self.cursor.execute(f"SELECT * FROM weather where sample_date LIKE '{start_year}-%-%'")
+            data += self.cursor.fetchall()
+            start_year+=1
+        plot = PlotOperations()
+        plot.create_boxplot(data)
+
+    def line_plot(self):
+        year = int(input("Enter a year between 1996 and 2023: "))
+        month = int(input("Enter a month between 1 and 12: "))
+        db = DBOperations("weather.db")
+        query = f"SELECT * FROM weather WHERE sample_date LIKE '{year}-{month}-%'"
+        self.cursor.execute(query)
+        data_list = self.cursor.fetchall()
+        if not data_list:
+            print(f"No data available for {month}/{year}.")
+            return
+        plotter = PlotOperations()
+        plotter.create_lineplot(data_list, month, year)
+
 
     def user_choice(self, choice):
         if choice == 1:
@@ -79,6 +98,8 @@ class WeatherProcessor:
         elif choice == 3:
             self.box_plot()
         elif choice == 4:
+            self.line_plot()
+        elif choice == 5:
             self.conn.close()
             exit()
         else:
@@ -88,7 +109,7 @@ class WeatherProcessor:
     
         self.weather_menu()
         try:
-            user_selection = int(input("Enter an option(1-4): "))
+            user_selection = int(input("Enter an option(1-5): "))
             self.user_choice(user_selection)
         except ValueError:
             print("Invalid selection, try again.")
