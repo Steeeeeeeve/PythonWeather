@@ -1,7 +1,7 @@
 """
 Cedric Pereira, Steven Hurkett, Zack Bowles-Lapointe
 November 22 2023
-Weather App - scraper page
+Weather App - plot operations page
 """
 
 from DBCM import DBCM
