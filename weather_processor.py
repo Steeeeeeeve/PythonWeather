@@ -66,19 +66,63 @@ class WeatherProcessor:
         print("Weather data updated.")
 
     def box_plot(self):
-        start_year = int(input("Enter a start year between 1997 and 2023: "))
-        end_year = int(input("Enter a start year between 1997 and 2023: "))
+        self.cursor.execute("SELECT sample_date FROM weather ORDER BY DATE(sample_date) ASC LIMIT 1")
+        first_year = int(str(self.cursor.fetchone()[0])[0:4])
+        self.cursor.execute("SELECT sample_date FROM weather ORDER BY DATE(sample_date) DESC LIMIT 1")
+        last_year = int(str(self.cursor.fetchone()[0])[0:4])
+        while True:
+            try:
+                start_year = int(input(f"Enter a start year between {first_year} and {last_year}: "))
+                if first_year <= start_year <= last_year:
+                    break
+                else:
+                    print(f"Please enter a year between {first_year} and {last_year}.")
+            except ValueError:
+                print("Error: Enter a valid integer.")
+
+        while True:
+            try:
+                end_year = int(input(f"Enter a start year between {first_year} and {last_year}: "))
+                if first_year <= end_year <= last_year:
+                    break
+                else:
+                    print(f"Please enter a year between {first_year} and {last_year}.")
+            except ValueError:
+                print("Error: Enter a valid integer.")
+
         data = []
-        while start_year <= end_year:
-            self.cursor.execute(f"SELECT * FROM weather where sample_date LIKE '{start_year}-%-%'")
-            data += self.cursor.fetchall()
-            start_year+=1
+        current_year = start_year
+        while current_year <= end_year:
+            self.cursor.execute(f"SELECT * FROM weather where sample_date LIKE '{current_year}-%-%'")
+            data.append(self.cursor.fetchall())
+            current_year+=1
         plot = PlotOperations()
-        plot.create_boxplot(data)
+        plot.create_boxplot(data, start_year, end_year)
 
     def line_plot(self):
-        year = int(input("Enter a year between 1996 and 2023: "))
-        month = int(input("Enter a month between 1 and 12: "))
+        self.cursor.execute("SELECT sample_date FROM weather ORDER BY DATE(sample_date) ASC LIMIT 1")
+        first_year = int(str(self.cursor.fetchone()[0])[0:4])
+        self.cursor.execute("SELECT sample_date FROM weather ORDER BY DATE(sample_date) DESC LIMIT 1")
+        last_year = int(str(self.cursor.fetchone()[0])[0:4])
+        while True:
+            try:
+                year = int(input(f"Enter a year between {first_year} and {last_year}: "))
+                if first_year <= year <= last_year:
+                    break
+                else:
+                    print(f"Please enter a year between {first_year} and {last_year}.")
+            except ValueError:
+                print("Error: Enter a valid integer.")
+
+        while True:
+            try:
+                month = int(input(f"Enter a month between 1 and 12: "))
+                if 1 <= month <= 12:
+                    break
+                else:
+                    print(f"Please enter a month between 1 and 12.")
+            except ValueError:
+                print("Error: Enter a valid integer.")
         db = DBOperations("weather.db")
         query = f"SELECT * FROM weather WHERE sample_date LIKE '{year}-{month}-%'"
         self.cursor.execute(query)
