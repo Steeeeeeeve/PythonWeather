@@ -97,7 +97,7 @@ class WeatherProcessor:
 
         while True:
             try:
-                end_year = int(input(f"Enter a start year between {first_year} and {last_year}: "))
+                end_year = int(input(f"Enter an end year between {first_year} and {last_year}: "))
                 if first_year <= end_year <= last_year:
                     break
                 else:
